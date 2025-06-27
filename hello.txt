@@ -1,4 +1,0 @@
-version2
-hello
-aboba
-aboba2
