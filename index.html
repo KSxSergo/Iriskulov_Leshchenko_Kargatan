@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<head>
+<title>Лещенко, Ирискулов, Каргатан</title>
+</head>
+<body>
+<p>LM75A: <samp id="temp"></samp> °C</p>
+<p>DHT22: <samp id="humid"></samp> %</p>
+<p>BMP280: <samp id="press"></samp> мм.рт.ст.</p>
+<p>Time: <samp id="time"></samp></p>
+<p><button onclick="get_logs()">ВЫВЕСТИ ЛОГИ</button></p>
+<p><textarea id="logs" readonly rows="25" cols="72"></textarea></p>
+<script type="text/javascript">
+  "use strict";
+  const temp_id = document.getElementById("temp");
+  const humid_id = document.getElementById("humid");
+  const press_id = document.getElementById("press");
+  const time_id = document.getElementById("time");
+  const logs_id = document.getElementById("logs");
+
+  async function update() {
+    let response_data = await fetch("/data");
+    let data = await response_data.json();
+
+    temp_id.innerHTML = data["temp"];
+    humid_id.innerHTML = data["humid"];
+    press_id.innerHTML = data["press"];
+    time_id.innerHTML = data["time"];
+  }
+
+  async function get_logs() {
+    let response_logs = await fetch("/logs");
+    let logs = await response_logs.text();
+    logs_id.innerHTML = logs;
+  }
+
+  setInterval(update, 1000)
+</script>
+</body>
+</html>
